@@ -34,7 +34,7 @@ export class ProjectComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    var projectId = this._route.snapshot.params.projectId;
+    const projectId = this._route.snapshot.params.projectId;
     this._projectService.getMilestoneStatuses().subscribe(ms => {
       this.milestoneStatuses = ms;
     });
@@ -46,7 +46,7 @@ export class ProjectComponent implements OnInit {
   }
 
   addMilestone() {
-    var newMs = new Milestone();
+    const newMs = new Milestone();
     newMs.projectId = this.project.id;
     const dialogRef = this.dialog.open(AddEditMilestoneDialogComponent, {
       width: '348px',
@@ -67,14 +67,14 @@ export class ProjectComponent implements OnInit {
   }
 
   editMilestone(milestone: Milestone) {
-    var clonedMilestone = JSON.parse(JSON.stringify(milestone));
+    const clonedMilestone = JSON.parse(JSON.stringify(milestone));
     const dialogRef = this.dialog.open(AddEditMilestoneDialogComponent, {
       width: '348px',
       data: {
         milestone: clonedMilestone,
         milestoneStatuses: this.milestoneStatuses,
         defaultStatus: this.milestoneStatuses.find(
-          ms => ms.id == milestone.milestoneStatusId
+          ms => ms.id === milestone.milestoneStatusId
         )
       }
     });
@@ -105,8 +105,8 @@ export class ProjectComponent implements OnInit {
   }
 
   getStatusName(id: number) {
-    if (!this.milestoneStatuses) return '';
-    var status = this.milestoneStatuses.find(ms => ms.id == id);
+    if (!this.milestoneStatuses) { return ''; }
+    const status = this.milestoneStatuses.find(ms => ms.id === id);
     return status ? status.name : 'unknown';
   }
 
@@ -116,12 +116,15 @@ export class ProjectComponent implements OnInit {
       !this.authService.authContext ||
       !this.authService.authContext.userProfile ||
       !this.authService.authContext.userProfile.userPermissions
-    )
+    ) {
       return false;
+    }
     const editPerm = this.authService.authContext.userProfile.userPermissions.find(
       up => up.projectId === this.project.id && up.value === 'Edit'
     );
-    const isAdmin = this.authService.authContext.claims && !!this.authService.authContext.claims.find(c => c.type === 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role' && c.value === 'Admin');
+    const isAdmin = this.authService.authContext.claims &&
+      !!this.authService.authContext.claims.find(c =>
+        c.type === 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role' && c.value === 'Admin');
     return !!editPerm || isAdmin;
   }
 }

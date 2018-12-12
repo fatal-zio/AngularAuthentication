@@ -10,7 +10,7 @@ import { AdminRouteGuard } from './admin-route.guard';
     imports: [],
     exports: [],
     declarations: [],
-    providers: [ 
+    providers: [
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
         ProjectService,
         AccountService,

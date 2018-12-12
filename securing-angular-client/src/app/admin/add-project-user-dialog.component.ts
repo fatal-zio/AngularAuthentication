@@ -29,18 +29,19 @@ export class AddProjectUserDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this,
-      this._accountService.getAllUsers().subscribe(allUsers => {
-        this.allUsers = allUsers;
-        this._projectService
-          .getProjectUsers(this.projectId)
-          .subscribe(projectUsers => {
-            this.allUsers.forEach(u => {
-              const projectUser = projectUsers.find(pu => pu.id === u.id);
-              if (!projectUser) { this.unassociatedUsers.push(u); }
-            });
+    this._accountService.getAllUsers().subscribe(allUsers => {
+      this.allUsers = allUsers;
+      this._projectService
+        .getProjectUsers(this.projectId)
+        .subscribe(projectUsers => {
+          this.allUsers.forEach(u => {
+            const projectUser = projectUsers.find(pu => pu.id === u.id);
+            if (!projectUser) {
+              this.unassociatedUsers.push(u);
+            }
           });
-      });
+        });
+    });
   }
 
   add() {
@@ -55,7 +56,7 @@ export class AddProjectUserDialogComponent implements OnInit {
         result => {
           this._dialogRef.close(true);
         },
-        error => this.error = Utils.formatError(error)
+        error => (this.error = Utils.formatError(error))
       );
     }
   }
@@ -63,5 +64,4 @@ export class AddProjectUserDialogComponent implements OnInit {
   cancel() {
     this._dialogRef.close();
   }
-
 }

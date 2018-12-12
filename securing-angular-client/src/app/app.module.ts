@@ -55,7 +55,7 @@ import { UnauthorizedComponent } from './home/unauthorized.component';
   providers: [
   ],
   bootstrap: [AppComponent],
-  entryComponents:[
+  entryComponents: [
     AddEditMilestoneDialogComponent
   ]
 })

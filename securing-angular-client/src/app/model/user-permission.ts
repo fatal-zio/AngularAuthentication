@@ -1,5 +1,5 @@
-import { UserProfile } from "./user-profile";
-import { Project } from "./project";
+import { UserProfile } from './user-profile';
+import { Project } from './project';
 
 export class UserPermission {
     userProfileId: string;

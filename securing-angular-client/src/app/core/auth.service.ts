@@ -10,11 +10,11 @@ import { AuthContext } from '../model/auth-context';
 export class AuthService {
   private _userManager: UserManager;
   private _user: User;
-  authContext: AuthContext;
+  public authContext: AuthContext;
 
   constructor(private httpClient: HttpClient) {
     Log.logger = console;
-    var config = {
+    const config = {
       authority: Constants.stsAuthority,
       client_id: Constants.clientId,
       redirect_uri: `${Constants.clientRoot}assets/oidc-login-redirect.html`,
@@ -61,8 +61,13 @@ export class AuthService {
   }
 
   loadSecurityContext() {
-    this.httpClient.get<AuthContext>(`${Constants.apiRoot}Account/AuthContext`).subscribe(context => {
-      this.authContext = context;
-    }, error => console.error(Utils.formatError(error)));
+    this.httpClient
+      .get<AuthContext>(`${Constants.apiRoot}Account/AuthContext`)
+      .subscribe(
+        context => {
+          this.authContext = context;
+        },
+        error => console.error(Utils.formatError(error))
+      );
   }
 }
