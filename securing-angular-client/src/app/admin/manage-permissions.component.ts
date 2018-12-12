@@ -14,7 +14,6 @@ import { AddProjectUserDialogComponent } from './add-project-user-dialog.compone
 import { Utils } from '../core/utils';
 import { DeleteDialogComponent } from './delete-dialog.component';
 import { Constants } from '../constants';
-import { parseIntAutoRadix } from '@angular/common/src/i18n/format_number';
 
 @Component({
   selector: 'app-manage-permissions',
@@ -37,7 +36,7 @@ export class ManagePermissionsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.projectId = parseIntAutoRadix(this._route.snapshot.params.projectId);
+    this.projectId = +this._route.snapshot.params.projectId;
 
     this._projectService.getProject(this.projectId).subscribe(
       p => {

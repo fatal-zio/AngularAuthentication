@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
 import { UserManager, User, WebStorageStateStore, Log } from 'oidc-client';
 import { Constants } from '../constants';
 import { Utils } from './utils';
@@ -14,6 +13,7 @@ export class AuthService {
 
   constructor(private httpClient: HttpClient) {
     Log.logger = console;
+
     const config = {
       authority: Constants.stsAuthority,
       client_id: Constants.clientId,
@@ -25,6 +25,7 @@ export class AuthService {
       automaticSilentRenew: true,
       silent_redirect_uri: `${Constants.clientRoot}assets/silent-redirect.html`
     };
+
     this._userManager = new UserManager(config);
     this._userManager.getUser().then(user => {
       if (user && !user.expired) {
@@ -32,6 +33,7 @@ export class AuthService {
         this.loadSecurityContext();
       }
     });
+
     this._userManager.events.addUserLoaded(args => {
       this._userManager.getUser().then(user => {
         this._user = user;
